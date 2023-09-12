@@ -1,0 +1,91 @@
+<div class="center">
+  <form class="loan-form" [formGroup]="loanForm">
+    <h1 class="loan-form__title">Lening aanvragen</h1>
+    <div class="loan-form__row">
+      <div class="loan-form__column">
+        <label class="loan-form__label">Voornaam</label>
+        <input
+          class="loan-form__input"
+          formControlName="firstName"
+          placeholder="Voornaam"
+          matInput
+        />
+      </div>
+      <div class="loan-form__column">
+        <label class="loan-form__label">Achternaam</label>
+        <input
+          class="loan-form__input"
+          formControlName="lastName"
+          placeholder="Achternaam"
+        />
+      </div>
+    </div>
+    <div class="loan-form__row">
+      <div class="loan-form__column">
+        <label class="loan-form__label">Plaatnaam</label>
+        <input
+          class="loan-form__input"
+          formControlName="city"
+          placeholder="Plaatsnaam"
+        />
+      </div>
+      <div class="loan-form__column">
+        <label class="loan-form__label">Postcode</label>
+        <input
+          class="loan-form__input"
+          formControlName="postal"
+          placeholder="Postcode"
+        />
+      </div>
+    </div>
+    <label class="loan-form__label">Maandinkomen</label>
+    <input
+      class="loan-form__input"
+      formControlName="monthlyIncome"
+      placeholder="Maandinkomen"
+    />
+    <mat-checkbox class="loan-form__checkbox" formControlName="hasPartner"
+      >Heeft u een partner?</mat-checkbox
+    >
+    <input
+      *ngIf="hasPartner"
+      class="loan-form__input"
+      formControlName="monthlyIncomePartner"
+      placeholder="Maandinkomen van uw partner"
+    />
+    <mat-checkbox class="loan-form__checkbox" formControlName="hasDebts"
+      >Heeft u of uw partner een betalingsachterstand?</mat-checkbox
+    >
+    <label class="loan-form__label">hoeveel u kunt lenen</label>
+    <input
+      class="loan-form__input"
+      formControlName="calculatedMortgage"
+      placeholder=""
+    />
+
+    <mat-radio-group class="loan-form__radio-group" formControlName="year">
+      <label class="loan-form__label">jaar</label>
+
+      <mat-radio-button class="loan-form__radio-button" [value]="year.ONEYEAR"
+        >1 jaar</mat-radio-button
+      >
+      <mat-radio-button class="loan-form__radio-button" [value]="year.FIVEYEARS"
+        >5 jaar</mat-radio-button
+      >
+      <mat-radio-button class="loan-form__radio-button" [value]="year.TENYEARS"
+        >10 jaar</mat-radio-button
+      >
+      <mat-radio-button
+        class="loan-form__radio-button"
+        [value]="year.TWENTYYEARS"
+        >20 jaar</mat-radio-button
+      >
+      <mat-radio-button
+        class="loan-form__radio-button"
+        [value]="year.THIRTYYEARS"
+        >30 jaar</mat-radio-button
+      >
+    </mat-radio-group>
+    <button class="loan-form__button" (click)="count()">Bereken</button>
+  </form>
+</div>
