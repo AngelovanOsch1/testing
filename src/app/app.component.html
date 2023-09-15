@@ -37,15 +37,15 @@
         <input
           class="loan-form__input"
           formControlName="postal"
-          placeholder="Postcode"
+          placeholder='Postcode'
         />
         <div class="loan-form__get-error">{{getError('postal')}}</div>
-
+        
       </div>
     </div>
     <label class="loan-form__label">Jaarlijkse inkomen</label>
     <input
-      class="loan-form__input"
+      class='loan-form__input'
       formControlName="yearIncome"
       placeholder="jaarlijkse inkomen"
     />
@@ -59,18 +59,20 @@
       formControlName="yearIncomePartner"
       placeholder="Jaarlijkse inkomen van uw partner"
     />
+    <div class="loan-form__get-error">{{getError('yearIncomePartner')}}</div>
     <mat-checkbox class="loan-form__checkbox" formControlName="hasDebts"
       >Heeft u of uw partner een betalingsachterstand?</mat-checkbox
     >
     <button class="loan-form__button" (click)="count()">Bereken</button>
     <div *ngIf="this.loanForm.get('calculatedMortgage')?.value">
-    <label class="loan-form__label">hoeveel u kunt lenen</label>
+    <label class="loan-form__label loan-form__margin">hoeveel u kunt lenen</label>
     <input
       class="loan-form__input"
       formControlName="calculatedMortgage"
       placeholder=""
+      [readOnly]="true"
     />
-    <label class="loan-form__label">hoeveel wilt u lenen</label>
+    <label class="loan-form__label loan-form__margin">hoeveel wilt u lenen</label>
     <input
       class="loan-form__input"
       formControlName="goingToLend"
@@ -78,7 +80,7 @@
     />
     <div class="loan-form__get-error">{{getError('goingToLend')}}</div>
     <mat-radio-group class="loan-form__radio-group" formControlName="year">
-      <label class="loan-form__label">jaar</label>
+      <label class="loan-form__label loan-form__margin">jaar</label>
 
       <mat-radio-button class="loan-form__radio-button" [value]="year.ONEYEAR"
         >1 jaar</mat-radio-button
@@ -101,9 +103,6 @@
       >
     </mat-radio-group>
     <div class="loan-form__get-error">{{getError('year')}}</div>
-    <div class="loan-form__get-error" *ngIf="loanForm.get('year')?.hasError('required') && loanForm.get('goingToLend')?.touched">
-      required.
-    </div>
     <button class="loan-form__button" (click)="countMonthlyPayment()">Bereken hoeveel per maand u moet terugbetalen</button>
   </div>
   <div *ngIf="monthlyPayment">
