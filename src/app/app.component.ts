@@ -17,28 +17,30 @@ export class AppComponent {
   monthlyPayment: boolean = false;
   totalLoan: number = 0;
 
-  constructor(private fb: FormBuilder,  private snackBar: MatSnackBar,) {
+  constructor(private fb: FormBuilder, private snackBar: MatSnackBar) {
     this.loanForm = this.fb.group({
       firstName: ['', [Validators.required]],
       lastName: ['', [Validators.required]],
       city: ['', [Validators.required]],
       postal: ['', [Validators.required]],
       yearIncome: ['', [Validators.required], [onlyNumbersAsyncValidator()]],
-      yearIncomePartner: ['',],
+      yearIncomePartner: [''],
       hasPartner: new FormControl(false),
       hasDebts: new FormControl(false),
       calculatedMortgage: new FormControl(),
       year: ['', [Validators.required]],
       goingToLend: ['', [Validators.required]],
       payAMonth: [''],
-    });  }
+    });
+  }
 
   ngOnInit(): void {
-
     this.loanForm.get('hasPartner')!.valueChanges.subscribe((value) => {
       if (value) {
         this.hasPartner = true;
-        this.loanForm.controls['yearIncomePartner'].addValidators(Validators.required);
+        this.loanForm.controls['yearIncomePartner'].addValidators(
+          Validators.required
+        );
       } else {
         this.hasPartner = false;
         this.loanForm.controls['yearIncomePartner'].clearValidators();
@@ -47,14 +49,13 @@ export class AppComponent {
     });
 
     this.loanForm.get('yearIncomePartner')!.valueChanges.subscribe((value) => {
-    if (value) {
+      if (value) {
         const isNumber = /^[0-9]*$/.test(value);
-    if (!isNumber) {
-
-      this.loanForm.controls['yearIncomePartner'].setErrors({
-        onlyNumbers: true,
-      });
-    }
+        if (!isNumber) {
+          this.loanForm.controls['yearIncomePartner'].setErrors({
+            onlyNumbers: true,
+          });
+        }
       }
     });
 
@@ -71,65 +72,67 @@ export class AppComponent {
         this.loanForm.controls['goingToLend'].setErrors({
           tooHighInput: true,
         });
-      } 
+      }
 
-    if (value) {
+      if (value) {
         const isNumber = /^[0-9]*$/.test(value);
-    if (!isNumber) {
-
-      this.loanForm.controls['goingToLend'].setErrors({
-        onlyNumbers: true,
-      });
-    }
+        if (!isNumber) {
+          this.loanForm.controls['goingToLend'].setErrors({
+            onlyNumbers: true,
+          });
+        }
       }
     });
   }
-  
+
   count() {
     const postal = this.loanForm.get('postal')?.value;
 
-    if(postal.includes(9679 || 9681 || 9682)) {
+    const allowedPostalCodes = ['9679', '9681', '9682'];
+
+    const foundPostal = allowedPostalCodes.find((code) =>
+      postal.includes(code)
+    );
+
+    if (foundPostal) {
       this.loanForm.controls['postal'].setErrors({
         postalError: true,
       });
       return;
     }
 
-    const monthlyIncome = this.loanForm.get('yearIncome')?.value;
-    const monthlyIncomePartner = this.loanForm.get(
-      'yearIncomePartner'
-    )!.value;
-    const monthlyIncomeNumber = parseInt(monthlyIncome);
-    let totalIncome;
+    const monthlyIncome = parseFloat(this.loanForm.get('yearIncome')!.value);
+
+    let totalIncome: number;
     if (this.loanForm.get('hasPartner')!.value) {
-      const monthlyIncomePartnerNumber = parseInt(monthlyIncomePartner);
-      totalIncome = monthlyIncomeNumber + monthlyIncomePartnerNumber;
+      const monthlyIncomePartner = parseFloat(
+        this.loanForm.get('yearIncomePartner')!.value
+      );
+      totalIncome = monthlyIncome + monthlyIncomePartner;
     } else {
-      totalIncome = monthlyIncomeNumber;
+      totalIncome = monthlyIncome;
     }
 
     if (this.loanForm.get('hasDebts')!.value) {
-      const totalIncomee = totalIncome / 100;
-      totalIncome = totalIncomee * this.hasDebtsNumber;
+      const tax = totalIncome / 100;
+      totalIncome = tax * this.hasDebtsNumber;
     }
 
     this.totalLoan = totalIncome * 4.25;
+
     this.loanForm.controls['calculatedMortgage'].setValue(this.totalLoan);
   }
 
   countMonthlyPayment() {
-
-    if(this.loanForm.invalid) {
-      console.log(this.loanForm)
+    if (this.loanForm.invalid) {
       return this.loanForm.markAllAsTouched();
     }
 
-    const year = this.loanForm.get('year')!.value;
+    const year = parseFloat(this.loanForm.get('year')!.value);
     const interest = year / 100;
     const totalInterest = interest / 12;
 
-    this.totalLoan = this.loanForm.get('calculatedMortgage')?.value;
-    const goingToLend = this.loanForm.get('goingToLend')?.value;
+    const goingToLend = parseFloat(this.loanForm.get('goingToLend')!.value);
 
     const monthlyPayment = goingToLend * totalInterest;
     this.loanForm.controls['payAMonth'].setValue(monthlyPayment);
@@ -138,14 +141,16 @@ export class AppComponent {
 
   getError(name: string) {
     const field = this.loanForm.get(name);
+    let error: string;
+
     if (field!.touched || !field!.pristine) {
-      let error: string;
       if (field!.hasError('required')) {
         error = 'Dit veld is verplicht';
       }
 
       if (field!.hasError('postalError')) {
-        error = 'Hypotheken die worden aangevraagd voor postcode gebieden 9679, 9681 of 9682 worden niet geaccepteerd. Dit is in verband met het aardbevingsgebied en dalende woningwaarde.';
+        error =
+          'Hypotheken die worden aangevraagd voor postcode gebieden 9679, 9681 of 9682 worden niet geaccepteerd. Dit is in verband met het aardbevingsgebied en dalende woningwaarde.';
       }
 
       if (field!.hasError('tooHighInput')) {
