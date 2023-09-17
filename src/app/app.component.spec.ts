@@ -54,7 +54,7 @@ describe('AppComponent', () => {
     component.loanForm.get('postal')!.setValue('UserPostal');
     component.loanForm.get('yearIncome')!.setValue('12345');
 
-    component.loanForm.get('year')!.setValue(year.FIVEYEARS);
+    component.loanForm.get('year')!.setValue(year.TWENTYYEARS);
     component.loanForm.get('goingToLend')!.setValue(10000);
 
     component.countMonthlyPayment();
