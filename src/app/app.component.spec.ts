@@ -59,7 +59,7 @@ describe('AppComponent', () => {
 
     component.countMonthlyPayment();
 
-    expect(component.loanForm.get('payAMonth')!.value).toBe(25);
+    expect(component.loanForm.get('payAMonth')!.value).toBe('52.78');
   });
 
   it('should mark all form controls as touched when form is invalid', () => {

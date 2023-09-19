@@ -133,9 +133,14 @@ export class AppComponent {
     const totalInterest = interest / 12;
 
     const goingToLend = parseFloat(this.loanForm.get('goingToLend')!.value);
+    const num = goingToLend / 360;
 
     const monthlyPayment = goingToLend * totalInterest;
-    this.loanForm.controls['payAMonth'].setValue(monthlyPayment);
+    const finalNum = num + monthlyPayment;
+
+    this.loanForm.controls['payAMonth'].setValue(
+      (Math.round(finalNum * 100) / 100).toFixed(2)
+    );
     this.monthlyPayment = true;
   }
 
