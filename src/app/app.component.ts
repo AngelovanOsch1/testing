@@ -101,16 +101,16 @@ export class AppComponent {
       return;
     }
 
-    const monthlyIncome = parseFloat(this.loanForm.get('yearIncome')!.value);
+    const yearIncome = parseFloat(this.loanForm.get('yearIncome')!.value);
 
     let totalIncome: number;
     if (this.loanForm.get('hasPartner')!.value) {
-      const monthlyIncomePartner = parseFloat(
+      const yearIncomePartner = parseFloat(
         this.loanForm.get('yearIncomePartner')!.value
       );
-      totalIncome = monthlyIncome + monthlyIncomePartner;
+      totalIncome = yearIncome + yearIncomePartner;
     } else {
-      totalIncome = monthlyIncome;
+      totalIncome = yearIncome;
     }
 
     if (this.loanForm.get('hasDebts')!.value) {
