@@ -1,18 +1,15 @@
 import { defineConfig } from 'cypress'
 
 export default defineConfig({
-  
   e2e: {
-    'baseUrl': 'http://localhost:4200'
+    baseUrl: 'https://statuesque-marshmallow-26e5bb.netlify.app/',
   },
-  
-  
+
   component: {
     devServer: {
       framework: 'angular',
       bundler: 'webpack',
     },
-    specPattern: '**/*.cy.ts'
-  }
-  
-})
+    specPattern: '**/*.cy.ts',
+  },
+});
