@@ -105,7 +105,7 @@
     <div class="loan-form__get-error">{{getError('year')}}</div>
     <button class="loan-form__button" (click)="countMonthlyPayment()">Bereken hoeveel per maand u moet terugbetalen</button>
   </div>
-  <div *ngIf="monthlyPayment">
+  <div *ngIf="this.loanForm.get('payAMonth')?.value">
   <label class="loan-form__label">hoeveel u moet betalen per maand</label>
   <input
     class='loan-form__input'

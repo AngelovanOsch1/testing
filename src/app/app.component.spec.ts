@@ -4,12 +4,15 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatCheckboxModule } from '@angular/material/checkbox'; // Import MatCheckboxModule
 import { year } from './enums/enums';
+import { User } from './user';
 
 describe('AppComponent', () => {
   let fixture: ComponentFixture<AppComponent>;
   let component: AppComponent;
+  let user: User;
 
   beforeEach(() => {
+    user = new User();
     TestBed.configureTestingModule({
       declarations: [AppComponent],
       providers: [FormBuilder, { provide: MatSnackBar, useClass: MatSnackBar }],
@@ -53,13 +56,16 @@ describe('AppComponent', () => {
     component.loanForm.get('city')!.setValue('UserCity');
     component.loanForm.get('postal')!.setValue('UserPostal');
     component.loanForm.get('yearIncome')!.setValue('12345');
-
     component.loanForm.get('year')!.setValue(year.FIVEYEARS);
     component.loanForm.get('goingToLend')!.setValue(10000);
-
     component.countMonthlyPayment();
-
     expect(component.loanForm.get('payAMonth')!.value).toBe('52.78');
+  });
+
+  it('unit test example for a clas', () => {
+    expect(user.id).toBe(5);
+    expect(user.username).toBe('Angelo');
+    expect(user.email).toBe('TestUser@hotmail.com');
   });
 
   it('should mark all form controls as touched when form is invalid', () => {
