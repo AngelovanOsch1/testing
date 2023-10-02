@@ -4,7 +4,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatCheckboxModule } from '@angular/material/checkbox'; // Import MatCheckboxModule
 import { year } from './enums/enums';
-import { User } from './user';
+import { User } from './User';
 
 describe('AppComponent', () => {
   let fixture: ComponentFixture<AppComponent>;
@@ -12,13 +12,12 @@ describe('AppComponent', () => {
   let user: User;
 
   beforeEach(() => {
-    user = new User();
     TestBed.configureTestingModule({
       declarations: [AppComponent],
       providers: [FormBuilder, { provide: MatSnackBar, useClass: MatSnackBar }],
       imports: [MatCheckboxModule], // Include MatCheckboxModule in the imports
     });
-
+    user = new User();
     fixture = TestBed.createComponent(AppComponent);
     component = fixture.componentInstance;
   });
@@ -62,7 +61,7 @@ describe('AppComponent', () => {
     expect(component.loanForm.get('payAMonth')!.value).toBe('52.78');
   });
 
-  it('unit test example for a clas', () => {
+  it('unit test example for a class', () => {
     expect(user.id).toBe(5);
     expect(user.username).toBe('Angelo');
     expect(user.email).toBe('TestUser@hotmail.com');
@@ -78,5 +77,10 @@ describe('AppComponent', () => {
     component.countMonthlyPayment();
 
     expect(component.loanForm.markAllAsTouched).toHaveBeenCalled();
+  });
+
+  it('should create the component', () => {
+    const component = fixture.componentInstance;
+    expect(component).toBeTruthy();
   });
 });
