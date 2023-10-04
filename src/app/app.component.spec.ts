@@ -4,8 +4,7 @@ import { FormBuilder } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatCheckboxModule } from '@angular/material/checkbox'; // Import MatCheckboxModule
 import { year } from './enums/enums';
-import { User } from './User';
-
+import { User } from './user';
 
 describe('AppComponent', () => {
   let fixture: ComponentFixture<AppComponent>;
