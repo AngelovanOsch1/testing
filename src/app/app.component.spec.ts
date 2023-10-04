@@ -6,6 +6,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox'; // Import MatChe
 import { year } from './enums/enums';
 import { User } from './User';
 
+
 describe('AppComponent', () => {
   let fixture: ComponentFixture<AppComponent>;
   let component: AppComponent;
